@@ -34,6 +34,7 @@
         border-radius: 5px;
         border-width: 2px;
         height: 80%;
+        background-image: linear-gradient( to right,white, #fefefe );
     }
 
     .card-login {
@@ -41,7 +42,7 @@
         border-radius: 5px;
         padding: 10px;
         width: 100%;
-        background-image: linear-gradient( to right,#d0d0d0, #c0c0c0 );
+        
         box-shadow: 1px 1px 1px 1px black;
         margin: 3px !important;
         padding: 3px !important;
@@ -54,11 +55,16 @@
 </style>
 
 <div class="container" style="">
-    <div class="card-login " style="">
+    <div class="card-login " style="background-image: linear-gradient( to right,#d0d0d0, #c0c0c0 );">
 
         <div class="col-md-11" style="">
 
-            <textarea id="displaymensagem" style="" readonly="readonly" class="campo-texto "></textarea>
+            <div id="displaymensagem" style="" readonly="readonly" class="campo-texto ">
+
+
+
+
+            </div>
 
             <br />
             <label style="color: black;font-weight:600;font-size:18px;margin-left:10px;"> Mensagem :</label> <input type="text" id="mensagem" style="width:50%;" />
