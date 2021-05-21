@@ -131,17 +131,26 @@ namespace WebChatBot.Controllers
         {
             var respostaChat = await db.RespostaChat.Where(m => m.Mensagem.ToUpper().Contains(request.mensagem.ToUpper())).FirstOrDefaultAsync();
 
+            //bool inicioConversa = false;
+
+            if (request.mensagem == "inicioChat") {
+                var resposta = new ResponseApi { resposta = " Olá, espero que esteja tudo. Sou a Lora responsável por passar os valores da Take. \n\n Mesmo eu sendo um robô e não tendo consciência sobre o que é valores, posso te ajudar de alguma forma. \n\n Vamos lá... \n\n A cultura Take tem comobase 6 valores que são :\n\n" };
+                //inicioConversa = true;
+                return Json(resposta);
+            }
+            
             if (respostaChat != null)
             {
-                var resposta = new ResponseApi { resposta = respostaChat.Resposta };
+                 var resposta = new ResponseApi { resposta = respostaChat.Resposta };
 
                 return Json(resposta);
             }
             else
             {
-                var resposta = new ResponseApi { resposta = "Não entendemos sua pergunta. Poderia reformular?" };
+               var  resposta = new ResponseApi { resposta = " Não entendemos sua pergunta. Poderia reformular?" };
                 return Json(resposta);
             }
         }
+
     }
 }
