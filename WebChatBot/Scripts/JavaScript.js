@@ -141,6 +141,8 @@ function takehigh() {
         $('#displaymensagem').animate({ scrollTop: $('#displaymensagem')[0].scrollHeight }, 500);
     })
 }
+
+
 $(function () {
     //Inicio da conversa no carregamento da página    
     function inicioConversa() {
@@ -158,37 +160,45 @@ $(function () {
                 //$("#displaymensagem").append(" >> EU : " + mensagem + "\n");
                 $("#displaymensagem").append("<div class='col-md-12' style=''><div class='card-login' style='text-align: justify;background-color:#b2dfdb!important;height:15%;box-shadow:none;'><div style='margin:10px;'>" + data.resposta + "</div></div></div><br><br><br><br>");
                 $("#displaymensagem").append("<div class='container'>");
-                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='takebe()' id='takebe'><img style='width:60%;' src='../Content/images/img_00.png'></a></div>");
-                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='taketeam()' id='taketeam'><img style='width:60%;' src='../Content/images/img_01.png'></a></div>");
-                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='takeexc()' id='takeexc'><img style='width:60%;' src='../Content/images/img_02.png'></a></div>");
-                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='takechange()' id='takechange'><img style='width:60%;' src='../Content/images/img_03.png'></a></div>");
-                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='takesimple()' id='takesimple'><img style='width:60%;' src='../Content/images/img_04.png'></a></div>");
-                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='takehigh()' id='takehigh'><img style='width:60%;' src='../Content/images/img_05.png'></a></div></div>");
+                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='takebe()' id='takebe'><img style='width:40%;' src='../Content/images/img_00.png'></a></div>");
+                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='taketeam()' id='taketeam'><img style='width:40%;' src='../Content/images/img_01.png'></a></div>");
+                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='takeexc()' id='takeexc'><img style='width:40%;' src='../Content/images/img_02.png'></a></div>");
+                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='takechange()' id='takechange'><img style='width:40%;' src='../Content/images/img_03.png'></a></div>");
+                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='takesimple()' id='takesimple'><img style='width:40%;' src='../Content/images/img_04.png'></a></div>");
+                $("#displaymensagem").append("<div class='col-md-4' ><a onclick='takehigh()' id='takehigh'><img style='width:40%;' src='../Content/images/img_05.png'></a></div></div>");
                 $("#mensagem").val("");
                 // debugger;
             }
         });
         //  debugger;
     }
+    inicioConversa();
 
+    function chamaGit() {
+        var stringUrlGit = "https://api.github.com/users/takenet/repos";
+        $.get(stringUrlGit, function (data) {
+            
+            $(".result").html(data);
+            var dados = data;
+            console.log(dados);
+            var input = Object.values(dados).slice(-5);
 
-  
+            //$("#displaymensagem").append("<br><h1 class='alert alert-info'>Nossos ultimos repositórios</h1>");
 
-    var stringUrlGit = "https://api.github.com/users/4z1mut3/repos";
-    $.get(stringUrlGit, function (data) {
-        inicioConversa();
-        $(".result").html(data);
-        var dados = data;
-        console.log(dados);
+            for (i in input) {
 
-        var input = dados[0].name + "\n" + dados[0].url + "\n" + dados[0].owner.login + "\n";
-        // alert(input);
-        document.getElementById("posicao-1").value = input;
+                $("#displaymensagem").append("<div class=''><div class='' style='margin:10px;'><div class'' style='background-color:#b2dfdb;color:;border-radius:3px;'><div class=''></div>" + "Proprietário:&nbsp;" + input[i].owner.login + "<br>Repositório:&nbsp;" + input[i].name + "<br>Url:&nbsp;" + input[i].git_url + "<br>Descrição:&nbsp;" + input[i].description + "<br>" + "</div></div></div>");
+            }
+            console.log(input);
+            //document.getElementById("posicao-1").value = input;
+            //debugger;
+            //seta_valores(data.bairro, data.logradouro, data.complemento, data.localidade, data.uf);
+            //dump(data);
 
-        //seta_valores(data.bairro, data.logradouro, data.complemento, data.localidade, data.uf);
-        //dump(data);
+        });
+    }
 
-    });
+   
 
 
 
@@ -198,22 +208,33 @@ $(function () {
             var mensagem = $("#mensagem").val();
             var stringUrl = "/RespostaChats/Chat";
 
-            //debugger;
-            $.ajax({
-                type: "POST",
-                url: stringUrl,
-                async: false,
-                data: { mensagem: mensagem },
-                success: function (data) {
-                    $("#displaymensagem").append("<br> <div class='badge badge-secondary'><b>  Eu :</b> " + mensagem + "</div>");
-                    $("#displaymensagem").append("<br> <div class='card-login' style='text-align: justify;background-color:#b2dfdb!important;height:12%;box-shadow:none;margin:10px;'><div style='margin:10px;'><b> Lora :</b> " + data.resposta + "</div></div>");
-                    $("#mensagem").val("");
-                    // debugger;
-                }
-            });
+           
+
+            if (mensagem == "saber mais" || mensagem == "Saber mais" || mensagem == "SABER MAIS") {
+                inicioConversa();
+            } else {
+                if (mensagem == "repositorio" || mensagem == "Repositorio" || mensagem == "REPOSITORIO") {
+                    chamaGit();
+                } else { 
+                //debugger;
+                    $.ajax({
+                        type: "POST",
+                        url: stringUrl,
+                        async: false,
+                        data: { mensagem: mensagem },
+                        success: function (data) {
+                            $("#displaymensagem").append("<br> <div class='badge badge-secondary'><b>  Eu :</b> " + mensagem + "</div>");
+                            $("#displaymensagem").append("<br> <div class='card-login' style='text-align: justify;background-color:#b2dfdb!important;height:12%;box-shadow:none;margin:10px;'><div style='margin:10px;'><b> Lora :</b> " + data.resposta + "</div></div>");
+                            $("#mensagem").val("");
+                            // debugger;
+                        }
+                    });
+            }}
+
+           
             //  debugger;
             $('#Enviar').click(function () {
-                $('#displaymensagem').animate({ scrollTop: $('#displaymensagem')[0].scrollHeight }, 500);
+                $('#displaymensagem').animate({ scrollTop: $('#displaymensagem')[0].scrollHeight }, 0);
             })
         }
     );
